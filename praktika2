@@ -1,1 +1,112 @@
-
+met3
+Поля, которые послал: name
+Поля, вответе на PUT:{
+    "name": "X",
+    "id": 2
+}
+Поля в ответе на PATCH: 
+    "id": 2,
+    "name": "X",
+    "username": "Antonette",
+    "email": "Shanna@melissa.tv",
+    "address": {
+        "street": "Victor Plains",
+        "suite": "Suite 879",
+        "city": "Wisokyburgh",
+        "zipcode": "90566-7771",
+        "geo": {
+            "lat": "-43.9509",
+            "lng": "-34.4618"
+        }
+    },
+    "phone": "010-692-6593 x09125",
+    "website": "anastasia.net",
+    "company": {
+        "name": "Deckow-Crist",
+        "catchPhrase": "Proactive didactic contingency",
+        "bs": "synergize scalable supply-chains"
+    }
+}
+Поля, которых не посылал, но они пришли: "username": "Antonette",
+    "email": "Shanna@melissa.tv",
+    "address": {
+        "street": "Victor Plains",
+        "suite": "Suite 879",
+        "city": "Wisokyburgh",
+        "zipcode": "90566-7771",
+        "geo": {
+            "lat": "-43.9509",
+            "lng": "-34.4618"
+        }
+    },
+    "phone": "010-692-6593 x09125",
+    "website": "anastasia.net",
+    "company": {
+        "name": "Deckow-Crist",
+        "catchPhrase": "Proactive didactic contingency",
+        "bs": "synergize scalable supply-chains"
+    }
+}
+Вывод (слияние или эхо): слияние
+met4
+ Статус DELETE: 200 
+тело DELETE: {} 
+Теория разрешает успеху DELETE: 200 OK, 202 Accepted, 204 No Content 
+Статус GET /posts/3 после удаления: 200 
+Хватает ли одного статуса для веры: нет 
+Чего не хватает для веры: контрольного чтения (GET) или изменения состояния коллекции (например, уменьшения её длины), так как сервер возвращает 200 с пустым телом и не гарантирует физическое удаление. 
+met5
+PUT, отправка 1: 1
+PUT, отправка 2: 1
+Ответы PUT совпали: да
+POST, отправка 1, id: 101
+POST, отправка 2, id: 102
+id совпали: нет
+Вывод, какой метод идемпотентен: put
+Met6.
+метод  | безопасен?  | идемпотентен? | обоснование
+GET    | да          | да            | повторное чтение ничего не меняет
+POST   | нет         | нет           | два одинаковых запроса создают два ресурса: два нажатия — два заказа
+PUT    | нет         | да            |повторная отправка того же тела просто перезаписывает то же состояние  
+PATCH  | нет         | не всегда     | «поле равно значению» идемпотентен, «прибавь десять» — нет
+DELETE | нет         | да            |ресурс удалён один раз; повтор получит другой статус, но мир не изменится
+Met7.
+/api/getUsers действие в:путь верная пара: GET /api/users
+/api?action=deleteUser&... действие в: query верная пара:DELETE /api/users/5
+/users/5/remove действие в: путь верная пара:DELETE /users/5
+/posts/delete-all действие в: путь верная пара: DELETE /posts
+Met8.
+Команда 1:curl -i -X POST https://jsonplaceholder.typicode.com/posts -H "Content-Type: application/json" -d '{"title":"foo","body":"bar","userId":1}'
+статусная строка:HTTP/2 201 Created
+заголовки: Location: /posts/101 и Content-Type: application/json; charset=utf-8
+Команда 2:curl -i https://jsonplaceholder.typicode.com/users/3
+статусная строка: HTTP/2 200 OK
+заголовки: Content-Type: application/json; charset=utf-8 и Content-Length: 388
+Met9.
+С Accept: статус HTTP/2 200 OK начало тела:{"id":1,"name":"Leanne Graham"
+Без Accept: статус HTTP/2 200 OK начало тела:{"id":1,"name":"Leanne Graham"
+Изменилось:Статусная строка — не изменилась  Начало тела — не изменилось — не изменилась 
+Вывод, смотрел ли сервер на Accept: Сервер не реагировал на заголовок Accept: application/json в данном случае.
+Met10
+Content-Type: application/json -> статус 201 Created тело: {"id":101,"title":"T","body":"B","userId":1} 
+Content-Type: text/plain -> статус 201 Created тело: {"id":102,"title":"T","body":"B","userId":1}
+Met11
+Met11.
+POST /get -> статус  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+GET /post -> статус <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+Код «метод не подходит»:405
+Пришёл в запросе:405
+Met12
+A: один адрес? ____ методы по назначению? ____ статусы со смыслом? ____ подсказки в ответе? ____
+уровень: ____
+B: один адрес? ____ методы по назначению? ____ статусы со смыслом? ____ подсказки в ответе? ____
+уровень: ____
+C: один адрес? ____ методы по назначению? ____ статусы со смыслом? ____ подсказки в ответе? ____
+уровень: ____
+Обоснования (по фразе на API): ____
